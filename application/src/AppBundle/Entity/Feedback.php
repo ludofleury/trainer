@@ -42,6 +42,14 @@ class Feedback
      * @var int
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 100,
+     *      minMessage = "The set should be at least 1"
+     *      maxMessage = "The set can't be greater than 100"
+     * )
      */
     private $set;
 
@@ -49,6 +57,14 @@ class Feedback
      * @var int
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 500,
+     *      minMessage = "The reps should be at least 1"
+     *      maxMessage = "The reps can't be greater than 500"
+     * )
      */
     private $reps;
 
@@ -56,11 +72,18 @@ class Feedback
      * @var int
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 500,
+     *      minMessage = "The weight should be at least 1"
+     *      maxMessage = "The weight can't be greater than 500"
      */
     private $weight;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable="true")
      */
     private $comment;
 
