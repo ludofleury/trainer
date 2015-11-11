@@ -3,6 +3,7 @@
 namespace Playbloom\Trainer\AppBundle\Controller;
 
 use Playbloom\Trainer\AppBundle\Form\FormErrorSerializer;
+use Playbloom\Trainer\AppBundle\Representation\ProgramRepresentation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +35,10 @@ class ProgramController extends Controller
      */
     public function showAction(Program $program)
     {
-        return new JsonResponse($program, JsonResponse::HTTP_OK);
+        return new JsonResponse(
+            new ProgramRepresentation($program, $this->container->get('router')->getGenerator()),
+            JsonResponse::HTTP_OK
+        );
     }
 
     /**

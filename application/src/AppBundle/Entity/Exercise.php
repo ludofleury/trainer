@@ -50,7 +50,7 @@ class Exercise implements JsonSerializable
      * @Assert\Range(
      *      min = 1,
      *      max = 100,
-     *      minMessage = "The reps should be at least 1"
+     *      minMessage = "The reps should be at least 1",
      *      maxMessage = "The reps can't be greater than 100"
      * )
      */
@@ -65,7 +65,7 @@ class Exercise implements JsonSerializable
      * @Assert\Range(
      *      min = 1,
      *      max = 10,
-     *      minMessage = "The sets should be at least 1"
+     *      minMessage = "The sets should be at least 1",
      *      maxMessage = "The sets can't be greater than 10"
      * )
      */
@@ -80,8 +80,8 @@ class Exercise implements JsonSerializable
      * @Assert\Range(
      *      min = 0,
      *      max = 300,
-     *      minMessage = "The rest should be at least 00"
-     *      maxMessage = "The rest can't be greater than 300    "
+     *      minMessage = "The rest should be at least 00",
+     *      maxMessage = "The rest can't be greater than 300"
      * )
      */
     private $rest;

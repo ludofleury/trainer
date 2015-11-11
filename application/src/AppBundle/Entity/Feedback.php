@@ -5,11 +5,12 @@ namespace Playbloom\Trainer\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JsonSerializable;
 
 /**
  * @ORM\Entity()
  */
-class Feedback
+class Feedback implements JsonSerializable
 {
     /**
      * @var int
@@ -41,13 +42,13 @@ class Feedback
     /**
      * @var int
      *
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", name="setNumber")
      * @Assert\NotNull()
      * @Assert\Type("integer")
      * @Assert\Range(
      *      min = 1,
      *      max = 100,
-     *      minMessage = "The set should be at least 1"
+     *      minMessage = "The set should be at least 1",
      *      maxMessage = "The set can't be greater than 100"
      * )
      */
@@ -62,7 +63,7 @@ class Feedback
      * @Assert\Range(
      *      min = 1,
      *      max = 500,
-     *      minMessage = "The reps should be at least 1"
+     *      minMessage = "The reps should be at least 1",
      *      maxMessage = "The reps can't be greater than 500"
      * )
      */
@@ -77,8 +78,9 @@ class Feedback
      * @Assert\Range(
      *      min = 1,
      *      max = 500,
-     *      minMessage = "The weight should be at least 1"
+     *      minMessage = "The weight should be at least 1",
      *      maxMessage = "The weight can't be greater than 500"
+     * )
      */
     private $weight;
 
@@ -90,7 +92,7 @@ class Feedback
     private $feeling;
 
     /**
-     * @ORM\Column(type="string", nullable="true")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $comment;
 
@@ -212,5 +214,24 @@ class Feedback
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'exercise' => $this->exercise,
+            'set' => $this->set,
+            'reps' => $this->reps,
+            'weight' => $this->weight,
+            'feeling' => $this->feeling,
+            'comment' => $this->comment
+        ];
     }
 }

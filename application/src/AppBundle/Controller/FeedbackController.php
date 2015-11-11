@@ -18,6 +18,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class FeedbackController extends Controller
 {
     /**
+     * @Method({"GET"})
+     * @Route("/feedbacks/{feedback}", name="program_show")
+     *
+     * @ParamConverter("feedback", converter="doctrine.orm", class="Playbloom\Trainer\AppBundle\Entity\Feedback", options={"repository_method"="find"})
+     */
+    public function showAction(Feedback $feedback)
+    {
+        return new JsonResponse(
+            new ProgramRepresentation($feedback, $this->container->get('router')->getGenerator()),
+            JsonResponse::HTTP_OK
+        );
+    }
+
+    /**
      * @Method({"POST"})
      * @Route("/reports/{report}/{exercise}/feedbacks", name="feedback_create")
      *

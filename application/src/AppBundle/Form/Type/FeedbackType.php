@@ -14,7 +14,7 @@ class FeedbackType extends AbstractType
             ->add('set', 'integer')
             ->add('reps', 'integer')
             ->add('weight', 'integer')
-            ->add('feeling', 'int')
+            ->add('feeling', 'integer')
             ->add('comment', 'text')
         ;
     }

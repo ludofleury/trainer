@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Playbloom\Trainer\AppBundle\Entity\Exercise;
+use Playbloom\Trainer\AppBundle\Entity\Session;
 use Playbloom\Trainer\AppBundle\Form\Type\ExerciseType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -28,8 +28,12 @@ class ReportController extends Controller
         $report->setSession($session);
         $report->setDate(new \DateTime());
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($report);
+        $entityManager->flush();
 
-        return new JsonResponse(null, JsonResponse::HTTP_CREATED, ['Location' => $this->generateUrl('report_show', ['report' => $report->getId()], UrlGeneratorInterface::ABSOLUTE_PATH)]);
+
+        return new JsonResponse(null, JsonResponse::HTTP_CREATED);
     }
 
     /**
