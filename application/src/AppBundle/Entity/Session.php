@@ -4,6 +4,7 @@
 namespace Playbloom\Trainer\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use JsonSerializable;
 
 /**
@@ -24,6 +25,8 @@ class Session implements JsonSerializable
      * @var Program
      *
      * @ORM\ManyToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Program", inversedBy="sessions")
+     * @Assert\NotNull()
+     * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Program")
      */
     private $program;
 
@@ -31,6 +34,14 @@ class Session implements JsonSerializable
      * @var int
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 7,
+     *      minMessage = "The day should be at least 1",
+     *      maxMessage = "The day can't be greater than 7"
+     * )
      */
     private $day;
 

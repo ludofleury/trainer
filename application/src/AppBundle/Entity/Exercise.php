@@ -3,7 +3,7 @@
 namespace Playbloom\Trainer\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use JsonSerializable;
 
 /**
@@ -24,6 +24,14 @@ class Exercise implements JsonSerializable
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 255,
+     *      minMessage= "The name must be at least 4 characters long",
+     *      maxMessage= "The name can't be longer than 255 characters"
+     * )
      */
     private $name;
 
@@ -31,6 +39,14 @@ class Exercise implements JsonSerializable
      * @var int
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 100,
+     *      minMessage = "The reps should be at least 1"
+     *      maxMessage = "The reps can't be greater than 100"
+     * )
      */
     private $reps;
 
@@ -38,6 +54,14 @@ class Exercise implements JsonSerializable
      * @var int
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 10,
+     *      minMessage = "The sets should be at least 1"
+     *      maxMessage = "The sets can't be greater than 10"
+     * )
      */
     private $sets;
 
@@ -45,6 +69,14 @@ class Exercise implements JsonSerializable
      * @var int The number of seconds
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 60,
+     *      max = 300,
+     *      minMessage = "The rest should be at least 60"
+     *      maxMessage = "The rest can't be greater than 300    "
+     * )
      */
     private $rest;
 

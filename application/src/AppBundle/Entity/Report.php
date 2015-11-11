@@ -4,6 +4,7 @@
 namespace Playbloom\Trainer\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 
 /**
@@ -24,6 +25,8 @@ class Report
      * @var DateTime
      *
      * @ORM\Column(type="date")
+     * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $date;
 
@@ -31,6 +34,8 @@ class Report
      * @var Session
      *
      * @ORM\OneToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Session")
+     * @Assert\NotNull()
+     * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Session")
      */
     private $session;
 
@@ -38,6 +43,8 @@ class Report
      * @var Feedback
      *
      * @ORM\OneToMany(targetEntity="Playbloom\Trainer\AppBundle\Entity\Feedback", mappedBy="report")
+     * @Assert\NotNull()
+     * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Feedback")
      */
     private $feedbacks;
 

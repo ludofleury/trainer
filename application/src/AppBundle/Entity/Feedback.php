@@ -4,6 +4,7 @@
 namespace Playbloom\Trainer\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -23,6 +24,8 @@ class Feedback
      * @var Report
      *
      * @ORM\ManyToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Report", inversedBy="feedbacks")
+     * @Assert\NotNull()
+     * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Report")
      */
     private $report;
 
@@ -30,6 +33,8 @@ class Feedback
      * @var Exercise
      *
      * @ORM\OneToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Exercise")
+     * @Assert\NotNull()
+     * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Exercise")
      */
     private $exercise;
 

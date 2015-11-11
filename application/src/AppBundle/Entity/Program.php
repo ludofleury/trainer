@@ -5,6 +5,7 @@ namespace Playbloom\Trainer\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use JsonSerializable;
 
 /**
@@ -25,6 +26,14 @@ class Program implements JsonSerializable
      * @var int The month number
      *
      * @ORM\Column(type="smallint")
+     * @Assert\NotNull()
+     * @Assert\Type("integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 12,
+     *      minMessage = "The month should be at least 1",
+     *      maxMessage = "The month can't be greater than 12"
+     * )
      */
     private $month;
 
@@ -32,6 +41,8 @@ class Program implements JsonSerializable
      * @var Session[]
      *
      * @ORM\OneToMany(targetEntity="Playbloom\Trainer\AppBundle\Entity\Session", mappedBy="program")
+     * @Assert\NotNull()
+     * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Session")
      */
     private $sessions;
 
