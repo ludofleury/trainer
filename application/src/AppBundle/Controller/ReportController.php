@@ -32,8 +32,18 @@ class ReportController extends Controller
         $entityManager->persist($report);
         $entityManager->flush();
 
+        $nextExercise = $session->getExercises()->first();
 
-        return new JsonResponse(null, JsonResponse::HTTP_CREATED);
+        return new JsonResponse(
+            null,
+            JsonResponse::HTTP_CREATED,
+            [
+                'Links' => $this->generateUrl(
+                    'feedback_create',
+                    ['report' => $report->getId(), 'exercise' => $nextExercise->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL)
+            ]
+        );
     }
 
     /**

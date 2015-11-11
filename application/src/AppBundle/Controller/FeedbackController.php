@@ -19,7 +19,7 @@ class FeedbackController extends Controller
 {
     /**
      * @Method({"GET"})
-     * @Route("/feedbacks/{feedback}", name="program_show")
+     * @Route("/feedbacks/{feedback}", name="feedback_show")
      *
      * @ParamConverter("feedback", converter="doctrine.orm", class="Playbloom\Trainer\AppBundle\Entity\Feedback", options={"repository_method"="find"})
      */

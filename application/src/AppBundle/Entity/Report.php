@@ -34,7 +34,7 @@ class Report implements JsonSerializable
     /**
      * @var Session
      *
-     * @ORM\OneToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Session")
+     * @ORM\ManyToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Session")
      * @Assert\NotNull()
      * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Session")
      */

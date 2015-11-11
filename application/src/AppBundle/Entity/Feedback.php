@@ -33,7 +33,7 @@ class Feedback implements JsonSerializable
     /**
      * @var Exercise
      *
-     * @ORM\OneToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Exercise")
+     * @ORM\ManyToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Exercise")
      * @Assert\NotNull()
      * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Exercise")
      */
