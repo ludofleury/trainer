@@ -41,7 +41,6 @@ class Program implements JsonSerializable
      * @var Session[]
      *
      * @ORM\OneToMany(targetEntity="Playbloom\Trainer\AppBundle\Entity\Session", mappedBy="program")
-     * @Assert\NotNull()
      * @Assert\Type("Playbloom\Trainer\AppBundle\Entity\Session")
      */
     private $sessions;

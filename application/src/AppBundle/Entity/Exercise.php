@@ -78,9 +78,9 @@ class Exercise implements JsonSerializable
      * @Assert\NotNull()
      * @Assert\Type("integer")
      * @Assert\Range(
-     *      min = 60,
+     *      min = 0,
      *      max = 300,
-     *      minMessage = "The rest should be at least 60"
+     *      minMessage = "The rest should be at least 00"
      *      maxMessage = "The rest can't be greater than 300    "
      * )
      */

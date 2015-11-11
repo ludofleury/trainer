@@ -83,6 +83,13 @@ class Feedback
     private $weight;
 
     /**
+     * @var int 3 => easy, 2 => normal, 1 => hard
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $feeling;
+
+    /**
      * @ORM\Column(type="string", nullable="true")
      */
     private $comment;
@@ -106,7 +113,7 @@ class Feedback
     /**
      * @param Report $report
      */
-    public function setReport($report)
+    public function setReport(Report $report)
     {
         $this->report = $report;
     }
@@ -173,6 +180,22 @@ class Feedback
     public function setWeight($weight)
     {
         $this->weight = $weight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFeeling()
+    {
+        return $this->feeling;
+    }
+
+    /**
+     * @param int $feeling
+     */
+    public function setFeeling($feeling)
+    {
+        $this->feeling = $feeling;
     }
 
     /**

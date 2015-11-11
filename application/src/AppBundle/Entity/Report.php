@@ -83,7 +83,7 @@ class Report
     /**
      * @param Session $session
      */
-    public function setSession($session)
+    public function setSession(Session $session)
     {
         $this->session = $session;
     }
