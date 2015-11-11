@@ -28,7 +28,8 @@ class DevData implements FixtureInterface
 
         $session1 = new Entity\Session();
         $session1->setDay(1);
-        $session1->setExercises([$exercise1, $exercise2]);
+        $session1->addExercise($exercise1);
+        $session1->addExercise($exercise2);
         $manager->persist($session1);
 
         $exercise3 = new Entity\Exercise();
@@ -49,7 +50,8 @@ class DevData implements FixtureInterface
 
         $session2 = new Entity\Session();
         $session2->setDay(2);
-        $session2->setExercises([$exercise3, $exercise4]);
+        $session2->addExercise($exercise3);
+        $session2->addExercise($exercise4);
         $manager->persist($session2);
 
         $program = new Entity\Program();

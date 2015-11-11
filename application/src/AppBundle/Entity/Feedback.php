@@ -39,6 +39,32 @@ class Feedback
     private $exercise;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $set;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $reps;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $weight;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $comment;
+
+    /**
      * @return int
      */
     public function getId()
@@ -76,5 +102,69 @@ class Feedback
     public function setExercise($exercise)
     {
         $this->exercise = $exercise;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSet()
+    {
+        return $this->set;
+    }
+
+    /**
+     * @param int $set
+     */
+    public function setSet($set)
+    {
+        $this->set = $set;
+    }
+
+    /**
+     * @return int
+     */
+    public function getReps()
+    {
+        return $this->reps;
+    }
+
+    /**
+     * @param int $reps
+     */
+    public function setReps($reps)
+    {
+        $this->reps = $reps;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @param int $weight
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
     }
 }

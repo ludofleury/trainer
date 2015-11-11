@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Playbloom\Trainer\AppBundle\Entity\Program;
 use Playbloom\Trainer\AppBundle\Form\Type\ProgramType;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProgramController extends Controller
 {
@@ -42,18 +43,18 @@ class ProgramController extends Controller
      */
     public function createAction(Request $request)
     {
-        $form = $this->createForm(new ProgramType());
+        $program = new Program();
+        $form = $this->createForm(new ProgramType(), $program);
 
         $data = json_decode($request->getContent(), true);
         $form->submit($data);
 
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $program = $form->getData();
             $entityManager->persist($program);
             $entityManager->flush();
 
-            return new JsonResponse(null, JsonResponse::HTTP_CREATED, ['Location' => $this->generateUrl('program_show', ['program' => $program->getId()])]);
+            return new JsonResponse(null, JsonResponse::HTTP_CREATED, ['Location' => $this->generateUrl('program_show', ['program' => $program->getId()], UrlGeneratorInterface::ABSOLUTE_PATH)]);
         }
 
         return new JsonResponse(FormErrorSerializer::serialize($form), JsonResponse::HTTP_BAD_REQUEST);
@@ -75,7 +76,7 @@ class ProgramController extends Controller
         if ($form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse(null, JsonResponse::HTTP_OK, ['Location' => $this->generateUrl('program_show', ['program' => $program->getId()])]);
+            return new JsonResponse(null, JsonResponse::HTTP_OK, ['Location' => $this->generateUrl('program_show', ['program' => $program->getId()], UrlGeneratorInterface::ABSOLUTE_PATH)]);
         }
 
         return new JsonResponse(FormErrorSerializer::serialize($form), JsonResponse::HTTP_BAD_REQUEST);

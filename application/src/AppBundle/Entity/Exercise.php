@@ -21,6 +21,12 @@ class Exercise implements JsonSerializable
     private $id;
 
     /**
+     * @var Session
+     * @ORM\ManyToOne(targetEntity="Playbloom\Trainer\AppBundle\Entity\Session", inversedBy="exercises")
+     */
+    private $session;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
@@ -93,6 +99,22 @@ class Exercise implements JsonSerializable
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Session
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param Session $session
+     */
+    public function setSession($session)
+    {
+        $this->session = $session;
     }
 
     /**

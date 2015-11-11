@@ -10,21 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Playbloom\Trainer\AppBundle\Entity\Session;
-use Playbloom\Trainer\AppBundle\Form\Type\ExerciseType;
+use Playbloom\Trainer\AppBundle\Form\Type\SessionType;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SessionController extends Controller
 {
-    /**
-     * @Method({"GET"})
-     * @Route("/sessions", name="session_index")
-     */
-    public function indexAction()
-    {
-        $sessions = $this->getDoctrine()->getRepository('Playbloom\Trainer\AppBundle\Entity\Session')->findAll();
-
-        return new JsonResponse($sessions, JsonResponse::HTTP_OK);
-    }
-
     /**
      * @Method({"GET"})
      * @Route("/sessions/{session}", name="session_show")
@@ -38,11 +28,15 @@ class SessionController extends Controller
 
     /**
      * @Method({"POST"})
-     * @Route("/sessions", name="session_create")
+     * @Route("/programs/{program}/sessions", name="session_create")
+     *
+     * @ParamConverter("program", converter="doctrine.orm", class="Playbloom\Trainer\AppBundle\Entity\Program", options={"repository_method"="find"})
      */
-    public function createAction(Request $request)
+    public function createAction(Program $program, Request $request)
     {
-        $form = $this->createForm(new ExerciseType());
+        $session = new Session();
+        $session->setProgram($program);
+        $form = $this->createForm(new SessionType(), $session);
 
         $data = json_decode($request->getContent(), true);
         $form->submit($data);
@@ -53,7 +47,7 @@ class SessionController extends Controller
             $entityManager->persist($session);
             $entityManager->flush();
 
-            return new JsonResponse(null, JsonResponse::HTTP_CREATED, ['Location' => $this->generateUrl('session_show', ['exercise' => $session->getId()])]);
+            return new JsonResponse(null, JsonResponse::HTTP_CREATED, ['Location' => $this->generateUrl('session_show', ['session' => $session->getId()], UrlGeneratorInterface::ABSOLUTE_PATH)]);
         }
 
         return new JsonResponse(FormErrorSerializer::serialize($form), JsonResponse::HTTP_BAD_REQUEST);
@@ -67,7 +61,7 @@ class SessionController extends Controller
      */
     public function updateAction(Session $session, Request $request)
     {
-        $form = $this->createForm(new ExerciseType(), $session);
+        $form = $this->createForm(new SessionType(), $session);
 
         $data = json_decode($request->getContent(), true);
         $form->submit($data);
@@ -75,7 +69,7 @@ class SessionController extends Controller
         if ($form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse(null, JsonResponse::HTTP_OK, ['Location' => $this->generateUrl('session_show', ['exercise' => $session->getId()])]);
+            return new JsonResponse(null, JsonResponse::HTTP_OK, ['Location' => $this->generateUrl('session_show', ['session' => $session->getId()], UrlGeneratorInterface::ABSOLUTE_PATH)]);
         }
 
         return new JsonResponse(FormErrorSerializer::serialize($form), JsonResponse::HTTP_BAD_REQUEST);
@@ -83,7 +77,7 @@ class SessionController extends Controller
 
     /**
      * @Method({"DELETE"})
-     * @Route("/sessions/{session}", name="session_delete")
+     * @Route("/programs/{program}/sessions/{session}", name="session_delete")
      *
      * @ParamConverter("session", converter="doctrine.orm", class="Playbloom\Trainer\AppBundle\Entity\Session", options={"repository_method"="find"})
      */

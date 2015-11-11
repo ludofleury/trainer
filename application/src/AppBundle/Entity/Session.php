@@ -3,6 +3,7 @@
 
 namespace Playbloom\Trainer\AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JsonSerializable;
@@ -48,9 +49,14 @@ class Session implements JsonSerializable
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="Playbloom\Trainer\AppBundle\Entity\Exercise")
+     * @ORM\OneToMany(targetEntity="Playbloom\Trainer\AppBundle\Entity\Exercise", mappedBy="session")
      */
     private $exercises;
+
+    public function __construct()
+    {
+        $this->exercises = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -101,11 +107,12 @@ class Session implements JsonSerializable
     }
 
     /**
-     * @param array $exercises
+     * @param Exercise $exercise
      */
-    public function setExercises($exercises)
+    public function addExercise(Exercise $exercise)
     {
-        $this->exercises = $exercises;
+        $exercise->setSession($this);
+        $this->exercises->add($exercise);
     }
 
     /**

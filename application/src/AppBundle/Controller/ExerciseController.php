@@ -11,49 +11,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Playbloom\Trainer\AppBundle\Entity\Exercise;
 use Playbloom\Trainer\AppBundle\Form\Type\ExerciseType;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ExerciseController extends Controller
 {
     /**
-     * @Method({"GET"})
-     * @Route("/exercises", name="exercise_index")
-     */
-    public function indexAction()
-    {
-        $exercises = $this->getDoctrine()->getRepository('Playbloom\Trainer\AppBundle\Entity\Exercise')->findAll();
-
-        return new JsonResponse($exercises, JsonResponse::HTTP_OK);
-    }
-
-    /**
-     * @Method({"GET"})
-     * @Route("/exercises/{exercise}", name="exercise_show")
-     *
-     * @ParamConverter("exercise", converter="doctrine.orm", class="Playbloom\Trainer\AppBundle\Entity\Exercise", options={"repository_method"="find"})
-     */
-    public function showAction(Exercise $exercise)
-    {
-        return new JsonResponse($exercise, JsonResponse::HTTP_OK);
-    }
-
-    /**
      * @Method({"POST"})
-     * @Route("/exercises", name="exercise_create")
+     * @Route("/sessions/{session}/exercises", name="exercise_create")
+     *
+     * @ParamConverter("session", converter="doctrine.orm", class="Playbloom\Trainer\AppBundle\Entity\Session", options={"repository_method"="find"})
      */
-    public function createAction(Request $request)
+    public function createAction(Session $session, Request $request)
     {
-        $form = $this->createForm(new ExerciseType());
+        $exercise = new Exercise();
+        $session->addExercise($exercise);
+        $form = $this->createForm(new ExerciseType(), $exercise);
 
         $data = json_decode($request->getContent(), true);
         $form->submit($data);
 
         if ($form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $exercise = $form->getData();
             $entityManager->persist($exercise);
             $entityManager->flush();
 
-            return new JsonResponse(null, JsonResponse::HTTP_CREATED, ['Location' => $this->generateUrl('exercise_show', ['exercise' => $exercise->getId()])]);
+            return new JsonResponse(null, JsonResponse::HTTP_CREATED, ['Location' => $this->generateUrl('exercise_show', ['exercise' => $exercise->getId()], UrlGeneratorInterface::ABSOLUTE_PATH)]);
         }
 
         return new JsonResponse(FormErrorSerializer::serialize($form), JsonResponse::HTTP_BAD_REQUEST);
@@ -75,7 +57,7 @@ class ExerciseController extends Controller
         if ($form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return new JsonResponse(null, JsonResponse::HTTP_OK, ['Location' => $this->generateUrl('exercise_show', ['exercise' => $exercise->getId()])]);
+            return new JsonResponse(null, JsonResponse::HTTP_OK, ['Location' => $this->generateUrl('exercise_show', ['exercise' => $exercise->getId()], UrlGeneratorInterface::ABSOLUTE_PATH)]);
         }
 
         return new JsonResponse(FormErrorSerializer::serialize($form), JsonResponse::HTTP_BAD_REQUEST);
