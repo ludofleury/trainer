@@ -1,0 +1,39 @@
+application:
+  image: tianon/true
+  volumes:
+    - ./application:/var/www/application
+  volumes_from:
+    - application_logs
+    - application_cache
+
+application_logs:
+  image: tianon/true
+  volumes:
+    - /var/www/application/app/logs
+
+application_cache:
+  image: tianon/true
+  volumes:
+    - /var/www/application/app/cache
+
+phpfpm:
+  build: phpfpm/
+  links:
+    - mysql
+  volumes_from:
+    - application
+
+nginx:
+  build: nginx/
+  ports:
+    - 8080:80
+  links:
+    - phpfpm
+  volumes_from:
+    - application
+
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_DATABASE=trainer
+    - MYSQL_ROOT_PASSWORD=trainer
